@@ -19,12 +19,20 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     },
+    {
+      path: '/:color',
+      name: 'color',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/ColorView.vue')
+    },
     ...cities.map((city) => ({
       path: '/' + city.city.replace(' ', '-').toLowerCase(),
       name: city.city.toLowerCase(),
       props: { city },
-      component: () => import('../views/CityColors.vue')
-    }))
+      component: () => import('../views/CityColorsView.vue')
+    })),
   ]
 })
 

@@ -26,7 +26,7 @@ const imageSrc = '/images/' + city + '.jpg'
 
 .city:hover img {
   scale: 1.2;
-  filter: sepia(0);
+  filter: grayscale(0) contrast(1.4);
 }
 
 .city:hover h1 {
@@ -47,6 +47,6 @@ img {
   width: 100%;
   opacity: 0.7;
   transition: all ease 0.3s;
-  filter: sepia(0.6);
+  filter: grayscale(0.6);
 }
 </style>
