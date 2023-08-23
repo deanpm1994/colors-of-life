@@ -26,8 +26,10 @@ import chroma from 'chroma-js'
 
 import Harmony from '@/utils/harmony'
 import ColorPalette from '@/components/ColorPalette.vue';
+import { useThemeStore } from '@/stores/theme';
 
 const route = useRoute()
+const theme = useThemeStore()
 const color = '#' + route.params.color as string
 const chormaColor = chroma(color)
 const generator = new Harmony(chormaColor, 'rgb')
@@ -38,6 +40,8 @@ const tetradicColors = generator.qualitative(4).map(color => color.hex())
 const analogousColors = generator.qualitative(12).map(color => color.hex())
 const sequentialColor = generator.qualitative(14).map(color => color.hex())
 const monochromaticColors = generator.monochromatic().colors(14, 'hex')
+
+theme.changeColors(complementaryColor[0], complementaryColor[1])
 </script>
 
 <style scoped>

@@ -12,14 +12,6 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    },
-    {
       path: '/:color',
       name: 'color',
       // route level code-splitting
@@ -29,7 +21,7 @@ const router = createRouter({
     },
     ...cities.map((city) => ({
       path: '/' + city.city.replace(' ', '-').toLowerCase(),
-      name: city.city.toLowerCase(),
+      name: 'country' + city.city.replace(' ', '-').toLowerCase(),
       props: { city },
       component: () => import('../views/CityColorsView.vue')
     })),

@@ -1,85 +1,70 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { computed } from 'vue';
+import { RouterView, useRoute } from 'vue-router'
+import chroma from 'chroma-js'
+
+import { useThemeStore } from '@/stores/theme'
+
+const route = useRoute()
+
+const theme = useThemeStore()
+const primary = computed(() => theme.primary)
+const secondary = computed(() => theme.secondary)
+
+const darkenSecondary = computed(() => chroma(secondary.value).darken().hex())
+
+const backgroundImage = computed(() => `url(/images${route.path}.jpg)`)
+const hasImage = computed(() => route.name?.toString().startsWith('country'))
+const hasColor = computed(() => !!route.params.color)
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <main :class="{ image: hasImage, color: hasColor }">
+    <div class="container">
+      <RouterView :key="$route.path"/>
     </div>
-  </header>
-
-  <RouterView :key="$route.path"/>
+  </main>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+main {
+  grid-area: main;
+  display: flex;
+  padding: 1rem 0;
+  overflow: auto;
+  position: relative;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
+main.image::before {
+  filter: grayscale(80%) opacity(.7);
+  background-image: linear-gradient(to right, v-bind(darkenSecondary), 40%, transparent, 60%, v-bind(darkenSecondary)),
+    v-bind(backgroundImage);
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
   width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  height: 100%;
+  content: "";
+  top: 0;
+  background-blend-mode: overlay;
+  z-index: -1;
+}
+main.color::before {
+  filter: opacity(.4);
+  background: linear-gradient(to right, v-bind(primary), 20%, white, 80%, v-bind(secondary));
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  content: "";
+  top: 0;
+  z-index: -1;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  z-index: 1;
+  position: relative;
 }
 </style>

@@ -15,23 +15,16 @@ const { name, value, description } = defineProps<{
 }>()
 
 const colorUrl = '/' + value.slice(1, value.length)
-const textColor = pickTextColorBasedOnBgColorSimple(value, '#FFF', '#000')
+const textColor = pickTextColorBasedOnBgColorSimple(value)
 </script>
 
 <style scoped>
 .color {
   flex-grow: 1;
-  height: 140px;
   padding: 1rem;
-  overflow: hidden;
-  transition: all ease 0.3s;
 }
 
 .color a {
   color: inherit;
-}
-
-.color:hover {
-  height: 200px;
 }
 </style>

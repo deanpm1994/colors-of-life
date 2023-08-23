@@ -18,9 +18,23 @@ const { colors } = defineProps<{ colors: Array<{name: string, value: string, des
 
 <style>
 ul {
+  height: 100%;
   list-style: none;
   padding: 0;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 575px) {
+  ul {
+    grid-template: repeat(auto-fill, 16rem) / repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: 767px) {
+  ul {
+    grid-template: repeat(auto-fill, 20rem) / repeat(3, 1fr);
+  }
 }
 </style>
